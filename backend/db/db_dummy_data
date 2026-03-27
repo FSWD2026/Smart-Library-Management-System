@@ -1,0 +1,82 @@
+-- ============================================================
+-- 1. USERS
+-- ============================================================
+INSERT INTO users (name, email, password_hash, role) VALUES
+  ('Alice Sharma',   'alice@library.com',   '$2b$12$aHzK1QpWxLmN3sT8uVbCeO', 'admin'),
+  ('Bob Fernandes',  'bob@library.com',     '$2b$12$bQrJ2MpXyNnO4tU9vWcDfP', 'librarian'),
+  ('Carol D''Souza', 'carol@library.com',   '$2b$12$cRsK3NqYzOoP5uV0wXdEgQ', 'librarian'),
+  ('David Nair',     'david@example.com',   '$2b$12$dStL4OrZaPpQ6vW1xYeFhR', 'member'),
+  ('Eva Menon',      'eva@example.com',     '$2b$12$eTuM5PsAbQqR7wX2yZfGiS', 'member'),
+  ('Frank Rao',      'frank@example.com',   '$2b$12$fUvN6QtBcRrS8xY3zAgHjT', 'member'),
+  ('Grace Iyer',     'grace@example.com',   '$2b$12$gVwO7RuCdSsT9yZ4aBhIkU', 'member');
+
+
+-- ============================================================
+-- 2. MEMBERS
+-- ============================================================
+INSERT INTO members (user_id, member_code, phone, address, membership_expiry, max_books_allowed, status) VALUES
+  (4, 'MEM-001', '9876543210', '12 Rose Lane, Mumbai',    '2026-12-31', 3, 'active'),
+  (5, 'MEM-002', '9123456780', '34 Palm Street, Pune',    '2026-09-30', 5, 'active'),
+  (6, 'MEM-003', '9988776655', '56 Oak Ave, Nashik',      '2025-06-30', 3, 'expired'),
+  (7, 'MEM-004', '9001122334', '78 Maple Rd, Nagpur',     '2026-11-15', 3, 'active'),
+  (2, 'MEM-005', '9090909090', '90 Cedar Blvd, Aurangabad','2027-03-31', 5, 'active');
+
+
+-- ============================================================
+-- 3. CATEGORIES
+-- ============================================================
+INSERT INTO categories (name, description) VALUES
+  ('Fiction',          'Novels, short stories, and other imaginative works'),
+  ('Science',          'Physics, chemistry, biology, and related fields'),
+  ('History',          'World history, biographies, and historical accounts'),
+  ('Technology',       'Programming, networking, AI, and computer science'),
+  ('Self-Help',        'Personal development, productivity, and wellness'),
+  ('Children',         'Picture books, early readers, and middle grade fiction');
+
+
+-- ============================================================
+-- 4. BOOKS
+-- ============================================================
+INSERT INTO books (title, author, isbn, category_id, publisher, publish_year, total_copies, available_copies, shelf_location) VALUES
+  ('The Pragmatic Programmer', 'David Thomas',     '978-0135957059', 4, 'Addison-Wesley', 2019, 4, 3, 'T-101'),
+  ('Sapiens',                  'Yuval Noah Harari','978-0062316097', 3, 'Harper Perennial',2015, 5, 5, 'H-202'),
+  ('Dune',                     'Frank Herbert',    '978-0441013593', 1, 'Ace Books',       1990, 3, 2, 'F-303'),
+  ('A Brief History of Time',  'Stephen Hawking',  '978-0553380163', 2, 'Bantam Books',    1998, 3, 3, 'S-404'),
+  ('Atomic Habits',            'James Clear',      '978-0735211292', 5, 'Avery',           2018, 6, 4, 'SH-505'),
+  ('Clean Code',               'Robert C. Martin', '978-0132350884', 4, 'Prentice Hall',   2008, 3, 2, 'T-102'),
+  ('The Alchemist',            'Paulo Coelho',     '978-0062315007', 1, 'HarperOne',       2014, 4, 4, 'F-304');
+
+
+-- ============================================================
+-- 5. LOANS
+-- ============================================================
+INSERT INTO loans (member_id, book_id, issued_by, issue_date, due_date, return_date, status) VALUES
+  (1, 1, 2, '2026-01-10', '2026-01-24', '2026-01-22', 'returned'),
+  (2, 3, 2, '2026-02-05', '2026-02-19', NULL,          'active'),
+  (4, 5, 3, '2026-02-10', '2026-02-24', NULL,          'overdue'),
+  (1, 6, 2, '2026-01-15', '2026-01-29', '2026-02-01', 'returned'),
+  (5, 2, 3, '2026-03-01', '2026-03-15', NULL,          'active'),
+  (2, 7, 2, '2025-12-01', '2025-12-15', NULL,          'lost');
+
+
+-- ============================================================
+-- 6. FINES
+-- ============================================================
+INSERT INTO fines (loan_id, member_id, amount, reason, status, paid_at) VALUES
+  (4, 1,  5.00, 'overdue',   'paid',    '2026-02-03 10:30:00'),
+  (3, 4, 15.50, 'overdue',   'pending',  NULL),
+  (6, 2, 50.00, 'lost book', 'pending',  NULL),
+  (1, 1,  0.00, 'overdue',   'waived',   NULL),
+  (5, 5,  2.00, 'overdue',   'pending',  NULL);
+
+
+-- ============================================================
+-- 7. RESERVATIONS
+-- ============================================================
+INSERT INTO reservations (member_id, book_id, reserved_at, expires_at, status, notified) VALUES
+  (4, 1, '2026-03-10 09:00:00', '2026-03-17 09:00:00', 'pending',   0),
+  (1, 3, '2026-03-08 14:00:00', '2026-03-15 14:00:00', 'ready',     1),
+  (5, 6, '2026-02-20 11:00:00', '2026-02-27 11:00:00', 'collected', 1),
+  (2, 5, '2026-01-05 10:00:00', '2026-01-12 10:00:00', 'expired',   0),
+  (4, 7, '2026-03-12 16:00:00', '2026-03-19 16:00:00', 'pending',   0),
+  (1, 2, '2026-03-15 08:00:00', NULL,                  'cancelled', 0);
